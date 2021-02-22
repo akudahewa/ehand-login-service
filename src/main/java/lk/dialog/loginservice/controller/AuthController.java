@@ -11,6 +11,7 @@ import lk.dialog.loginservice.payload.SignUpRequest;
 import lk.dialog.loginservice.repository.RoleRepository;
 import lk.dialog.loginservice.repository.UserRepository;
 import lk.dialog.loginservice.security.JwtTokenProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,7 @@ import java.util.Collections;
 
 
 @RestController
+@Slf4j
 @RequestMapping("/api/auth")
 public class AuthController {
 
@@ -67,6 +69,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+        log.info("POST - User sign up {}",signUpRequest.getUsername());
         if(userRepository.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
                     HttpStatus.BAD_REQUEST);

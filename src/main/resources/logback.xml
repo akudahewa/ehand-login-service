@@ -24,7 +24,7 @@
         </encoder>
     </appender>
 
-    <logger name="lk.ehand" level="debug">
+    <logger name="lk.dialog" level="debug">
         <appender-ref ref="SPRING_LOG_APPENDER"/>
     </logger>
 
