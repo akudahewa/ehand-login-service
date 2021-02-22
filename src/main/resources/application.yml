@@ -1,0 +1,68 @@
+spring:
+  profiles:
+    active: jump
+  application:
+    name: login
+    prefix: login
+  security:
+    enabled: false
+  http:
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 15MB
+      enabled: true
+
+server:
+  port: 8085
+  ssl:
+    enabled: false
+  servlet:
+    context-path: /login-service
+  tomcat:
+    accesslog:
+      enabled: true
+      directory: "~/logs/login-service"
+      prefix: access_log
+      buffered: false
+      suffix: .log
+      file-date-format: .yyyy-MM-dd
+      pattern: "%h %l %u %t %r %s %b %D"
+
+#security:
+#  basic:
+#    enabled: false
+
+management:
+  security:
+    enabled: false
+  context-path: /actuator
+
+
+configurations:
+  offers:
+    pageSize: 100
+  tariffs:
+    resultSetSize: 50
+    errorMessage: Too many result to show! Please provide a filter.
+  siteDetails:
+    resultSetSize: 50
+    errorMessage: Too many result to show! Please provide a filter.
+
+endpoints:
+  health:
+    enabled: true
+  beans:
+    enabled: true
+  auditevents:
+    enabled: true
+  configprops:
+    enabled: true
+
+ehand:
+  app:
+    jwtSecret: JWTSuperSecretKey
+    jwtExpirationMs: 604800000
+
+
+
+

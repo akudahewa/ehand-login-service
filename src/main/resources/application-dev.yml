@@ -1,0 +1,6 @@
+mysql:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    jdbcUrl: jdbc:mysql://us-cdbr-east-03.cleardb.com:3306/heroku_a3d2b2450d11d7a?useSSL=false
+    username: bd6291c4f04c2a
+    password: 45fd042a
