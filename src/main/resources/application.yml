@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: jump
+    active: dev
   application:
     name: login
     prefix: login
