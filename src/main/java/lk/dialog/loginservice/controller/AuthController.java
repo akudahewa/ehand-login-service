@@ -1,5 +1,6 @@
 package lk.dialog.loginservice.controller;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import lk.dialog.loginservice.exception.AppException;
 import lk.dialog.loginservice.model.Role;
 import lk.dialog.loginservice.model.RoleName;
@@ -67,6 +68,7 @@ public class AuthController {
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
 
+
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
         log.info("POST - User sign up {}",signUpRequest.getUsername());
@@ -85,8 +87,7 @@ public class AuthController {
                 signUpRequest.getEmail(), signUpRequest.getPassword());
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+        Role userRole = roleRepository.findByName(RoleName.valueOf(signUpRequest.getRole()))
                 .orElseThrow(() -> new AppException("User Role not set."));
 
         user.setRoles(Collections.singleton(userRole));
