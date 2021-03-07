@@ -4,6 +4,7 @@ mysql:
     jdbcUrl: jdbc:mysql://localhost:3306/login?useSSL=false
     username: root
     password: welcome
+
 #  jpa:
 #    properties:
 #      hibernate:

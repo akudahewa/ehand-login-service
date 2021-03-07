@@ -38,11 +38,13 @@ public class JwtTokenProvider {
         final String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
-
+//        final String privileges = userPrincipal.getPrivileges().stream()
+//                .map(GrantedAuthority::getAuthority)
+//                .collect(Collectors.joining(","));
         return Jwts.builder()
                 .setSubject(Long.toString(userPrincipal.getId()))
                 .claim("authorities",
-                        authentication.getAuthorities().stream()
+                        authentication.getAuthorities().stream()                    
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toList()))
                 .setIssuedAt(new Date())

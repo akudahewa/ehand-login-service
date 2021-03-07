@@ -45,21 +45,33 @@ public class User extends DateAudit {
     @Size(max = 100)
     private String password;
 
+    @NotBlank
+    private String status;
+
+    private String resetPasswordToken;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_modules",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "module_id"))
+    private Set<Module> modules = new HashSet<>();
+
     public User() {
 
     }
 
-    public User(String name, String username, String email, String password) {
+    public User(String name, String username, String email, String password,String status) {
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.status = status;
     }
 
     public Long getId() {
@@ -108,5 +120,29 @@ public class User extends DateAudit {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
+
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
+    }
+
+    public Set<Module> getModules() {
+        return modules;
+    }
+
+    public void setModules(Set<Module> modules) {
+        this.modules = modules;
     }
 }
