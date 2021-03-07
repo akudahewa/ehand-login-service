@@ -23,60 +23,60 @@ import java.util.Optional;
 @RequestMapping("/api/auth")
 public class ForgetPasswordController {
 
-    UserRepository userRepository;
-
-    private final JavaMailSender mailSender;
-    BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    ForgetPasswordController(UserRepository userRepository, JavaMailSender mailSender,BCryptPasswordEncoder bCryptPasswordEncoder){
-        this.userRepository = userRepository;
-        this.mailSender = mailSender;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
-
-    @PostMapping("/forgot-password")
-    public ResponseEntity<ApiResponse> processForgotPasswordToken(@RequestBody ForgotPasswordRequest request){
-        log.info("POST -> forgot password {}",request.getSender());
-        String token = RandomString.make(30);
-        // update reset password token
-        User user = userRepository.findByEmail("akudahewa@gmail.com")
-                    .orElseThrow(() -> new ResourceNotFoundException("User", "email", "akudahewa@gmail.com"));;
-        user.setResetPasswordToken(token);
-        userRepository.save(user);
-        SimpleMailMessage passwordResetMail = new SimpleMailMessage();
-        passwordResetMail.setFrom("akudahewa@gmail.com");
-        passwordResetMail.setTo(request.getSender());
-        passwordResetMail.setSubject("Reset password");
-        passwordResetMail.setText("Please reset your password");
-        mailSender.send(passwordResetMail);
-
-
-        return ResponseEntity.ok().body(new ApiResponse(true, "User registered successfully"));
-    }
-
-    @GetMapping("/password/reset")
-    public User loadDisplayNewPasswordForm(@RequestParam(value = "token") String token){
-        log.info("GET -> load display reset password form, token {}",token);
-        Optional<User> user =userRepository.findByResetPasswordToken(token);
-        if(!user.isPresent()){
-            throw  new ResourceNotFoundException("User","token","Not a valid token :"+token);
-        }
-        return user.get();
-
-    }
-
-    @PostMapping("/password/reset")
-    public User setNewPassword(@RequestBody NewPasswordRequest newPasswordRequest){
-        Optional<User> user =userRepository.findByResetPasswordToken(newPasswordRequest.getToken());
-        if(!user.isPresent()){
-            throw  new ResourceNotFoundException("User","token","Not a valid token :"+newPasswordRequest.getToken());
-        }
-        if(newPasswordRequest.getNewPassword().equals(newPasswordRequest.getConfirmPassword())){
-            bCryptPasswordEncoder.encode(newPasswordRequest.getNewPassword());
-        }
-        user.get().setPassword(bCryptPasswordEncoder.encode(newPasswordRequest.getNewPassword()));
-        user.get().setResetPasswordToken(null);
-        return user.get();
-
-    }
+//    UserRepository userRepository;
+//
+//    private final JavaMailSender mailSender;
+//    BCryptPasswordEncoder bCryptPasswordEncoder;
+//
+//    ForgetPasswordController(UserRepository userRepository, JavaMailSender mailSender,BCryptPasswordEncoder bCryptPasswordEncoder){
+//        this.userRepository = userRepository;
+//        this.mailSender = mailSender;
+//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+//    }
+//
+//    @PostMapping("/forgot-password")
+//    public ResponseEntity<ApiResponse> processForgotPasswordToken(@RequestBody ForgotPasswordRequest request){
+//        log.info("POST -> forgot password {}",request.getSender());
+//        String token = RandomString.make(30);
+//        // update reset password token
+//        User user = userRepository.findByEmail("akudahewa@gmail.com")
+//                    .orElseThrow(() -> new ResourceNotFoundException("User", "email", "akudahewa@gmail.com"));;
+//        user.setResetPasswordToken(token);
+//        userRepository.save(user);
+//        SimpleMailMessage passwordResetMail = new SimpleMailMessage();
+//        passwordResetMail.setFrom("akudahewa@gmail.com");
+//        passwordResetMail.setTo(request.getSender());
+//        passwordResetMail.setSubject("Reset password");
+//        passwordResetMail.setText("Please reset your password");
+//        mailSender.send(passwordResetMail);
+//
+//
+//        return ResponseEntity.ok().body(new ApiResponse(true, "User registered successfully"));
+//    }
+//
+//    @GetMapping("/password/reset")
+//    public User loadDisplayNewPasswordForm(@RequestParam(value = "token") String token){
+//        log.info("GET -> load display reset password form, token {}",token);
+//        Optional<User> user =userRepository.findByResetPasswordToken(token);
+//        if(!user.isPresent()){
+//            throw  new ResourceNotFoundException("User","token","Not a valid token :"+token);
+//        }
+//        return user.get();
+//
+//    }
+//
+//    @PostMapping("/password/reset")
+//    public User setNewPassword(@RequestBody NewPasswordRequest newPasswordRequest){
+//        Optional<User> user =userRepository.findByResetPasswordToken(newPasswordRequest.getToken());
+//        if(!user.isPresent()){
+//            throw  new ResourceNotFoundException("User","token","Not a valid token :"+newPasswordRequest.getToken());
+//        }
+//        if(newPasswordRequest.getNewPassword().equals(newPasswordRequest.getConfirmPassword())){
+//            bCryptPasswordEncoder.encode(newPasswordRequest.getNewPassword());
+//        }
+//        user.get().setPassword(bCryptPasswordEncoder.encode(newPasswordRequest.getNewPassword()));
+//        user.get().setResetPasswordToken(null);
+//        return user.get();
+//
+//    }
 }
