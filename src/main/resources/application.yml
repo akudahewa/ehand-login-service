@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: jump
   application:
     name: login
     prefix: login
@@ -11,6 +11,17 @@ spring:
       max-file-size: 15MB
       max-request-size: 15MB
       enabled: true
+  mail:
+    host: smtp.gmail.com
+    username: akudahewa@gmail.com
+    password: ucscank!2384
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 server:
   port: 8085
